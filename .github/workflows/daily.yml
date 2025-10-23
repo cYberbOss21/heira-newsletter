@@ -2,8 +2,8 @@ name: Heira Daily Brief (Build & Publish)
 
 on:
   schedule:
-    - cron: "0 12 * * *"  # runs every day at 7 AM Central Time
-  workflow_dispatch: {}   # allows manual runs from the Actions tab
+    - cron: "0 12 * * *"   # 7:00 AM Central
+  workflow_dispatch: {}
 
 permissions:
   contents: write
@@ -17,6 +17,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
+      - name: Show repo tree (debug)
+        run: |
+          pwd
+          ls -la
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -27,19 +32,33 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # 🔎 Find where heira_newsletter.py lives (in a folder or at repo root)
+      - name: Locate generator path
+        id: locate
+        run: |
+          if [ -f heira_newsletter_kit/heira_newsletter.py ]; then
+            echo "GEN_PATH=heira_newsletter_kit" >> $GITHUB_ENV
+            echo "Found in heira_newsletter_kit/"
+          elif [ -f heira_newsletter.py ]; then
+            echo "GEN_PATH=." >> $GITHUB_ENV
+            echo "Found at repo root"
+          else
+            echo "❌ Could not find heira_newsletter.py"; exit 1
+          fi
+
       - name: Generate newsletter
-        working-directory: heira_newsletter_kit
-        run: python heira_newsletter.py
+        run: python $GEN_PATH/heira_newsletter.py
 
       - name: Prepare site folder
         run: |
           mkdir -p _site
-          cp -r heira_newsletter_kit/output/* _site/
+          cp -r $GEN_PATH/output/* _site/
+          # Ensure an index.html exists
           if [ ! -f "_site/index.html" ]; then
             cp _site/newsletter_web.html _site/index.html || true
           fi
 
-      - name: Upload artifact
+      - name: Upload artifact for Pages
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
