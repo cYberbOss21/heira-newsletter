@@ -1,0 +1,24 @@
+feeds:
+  # Official / Government
+  - https://www.cisa.gov/news.xml
+  - https://www.us-cert.gov/ncas/alerts.xml
+  - https://www.ncsc.gov.uk/api/1/services/v1/news-rss-feed.xml
+
+  # Cyber media
+  - https://www.bleepingcomputer.com/feed/
+  - https://therecord.media/feed
+  - https://www.darkreading.com/rss.xml
+  - https://www.securityweek.com/feed
+  - https://cyware.com/all-news/feed
+  - https://thecyberwire.com/feeds/rss/daily-briefing
+  - https://krebsonsecurity.com/feed/
+  - https://nakedsecurity.sophos.com/feed/
+  - https://threatpost.com/feed/
+  - https://blog.talosintelligence.com/rss/
+  - https://feeds.feedburner.com/GoogleOnlineSecurityBlog
+  - https://aws.amazon.com/security/security-bulletins/rss/
+
+  # Vendor PSIRTs
+  - https://www.cisco.com/security/center/psirt/psirt.xml
+  - https://msrc-blog.microsoft.com/feed/
+  - https://blog.cloudflare.com/rss/
