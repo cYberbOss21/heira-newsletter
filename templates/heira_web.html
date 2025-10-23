@@ -1,0 +1,50 @@
+{% set primary = brand.primary_hex %}
+{% set secondary = brand.secondary_hex %}
+{% set accent = brand.accent_hex %}
+{% set light_bg = brand.light_bg_hex %}
+{% set text = brand.text_hex %}
+
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ title }}</title>
+<style>
+  body{margin:0;background:#0B1020;color:{{ text }};font-family:Inter,system-ui,Arial,Helvetica,sans-serif}
+  .container{max-width:900px;margin:0 auto;padding:40px 24px}
+  .header{display:flex;align-items:center;gap:16px}
+  .logo img{max-width:56px;height:auto;border-radius:12px}
+  .card{background:{{ light_bg }};border:1px solid rgba(255,255,255,.08);border-radius:20px;padding:24px;margin-top:24px}
+  .pill{display:inline-block;background:{{ primary }};color:#fff;padding:6px 10px;border-radius:999px;font-size:12px}
+  .meta{color:#94A3B8;margin-top:6px}
+  .divider{height:1px;background:rgba(255,255,255,.08);border:0;margin:16px 0}
+  a{color:{{ secondary }};text-decoration:none} a:hover{text-decoration:underline}
+  .tag{display:inline-block;font-size:12px;color:#E2E8F0;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:2px 10px;margin-right:6px}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">{% if brand.logo_path %}<img src="{{ brand.logo_path }}" alt="Heira Security logo">{% endif %}</div>
+    <div>
+      <div class="pill">{{ edition_label }}</div>
+      <h1 style="margin:6px 0 0">{{ title }}</h1>
+      <div class="meta">Published: {{ published }}</div>
+    </div>
+  </div>
+
+  <div class="card">
+    {% for a in articles %}
+      <h2>{{ loop.index }}) {{ a.title }}</h2>
+      <div class="meta">Source: {{ a.source }} • <a href="{{ a.link }}">Read full story →</a></div>
+      <p><strong>TL;DR:</strong> {{ a.tldr }}</p>
+      <p><strong>Why it matters:</strong> {{ a.why }}</p>
+      {% if a.tags %}<p>{% for t in a.tags %}<span class="tag">{{ t }}</span>{% endfor %}</p>{% endif %}
+      <p><strong>Recommended actions:</strong></p>
+      <ul>{% for m in a.mitigations %}<li>{{ m }}</li>{% endfor %}</ul>
+      {% if not loop.last %}<hr class="divider" />{% endif %}
+    {% endfor %}
+  </div>
+  <p class="meta" style="text-align:center;margin-top:18px">{{ brand.footer_note.format(year=year) }}</p>
+</div>
+</body>
+</html>
