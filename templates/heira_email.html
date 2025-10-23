@@ -1,0 +1,54 @@
+{% set primary = brand.primary_hex %}
+{% set secondary = brand.secondary_hex %}
+{% set accent = brand.accent_hex %}
+{% set light_bg = brand.light_bg_hex %}
+{% set text = brand.text_hex %}
+
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ title }}</title>
+<style>
+  body{margin:0;background:#0B1020;color:{{ text }};font-family:Arial,Helvetica,sans-serif}
+  .container{max-width:720px;margin:0 auto;padding:24px}
+  .card{background:{{ light_bg }};border-radius:16px;padding:24px;border:1px solid rgba(255,255,255,.08)}
+  .logo{max-width:160px;height:auto}
+  .pill{display:inline-block;background:{{ primary }};color:#fff;padding:6px 10px;border-radius:999px;font-size:12px}
+  .meta{color:#CBD5E1;font-size:12px}
+  .divider{height:1px;background:rgba(255,255,255,.08);border:0;margin:16px 0}
+  a{color:{{ secondary }};text-decoration:none}
+  a:hover{text-decoration:underline}
+  .tag{display:inline-block;font-size:11px;color:#E2E8F0;border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:2px 8px;margin-right:6px}
+</style>
+</head>
+<body>
+<div class="container">
+  <div style="text-align:center;padding:24px 0 8px">
+    {% if brand.logo_path %}<img class="logo" src="{{ brand.logo_path }}" alt="Heira Security logo">{% endif %}
+  </div>
+
+  <div class="card">
+    <div class="pill">{{ edition_label }}</div>
+    <h1 style="margin:12px 0 8px">{{ title }}</h1>
+    <div class="meta">Published: {{ published }}</div>
+    <hr class="divider" />
+
+    {% for a in articles %}
+      <h2 style="margin:20px 0 8px">{{ loop.index }}) {{ a.title }}</h2>
+      <div class="meta">Source: {{ a.source }} • <a href="{{ a.link }}">Read full story →</a></div>
+      <p><strong>TL;DR:</strong> {{ a.tldr }}</p>
+      <p><strong>Why it matters:</strong> {{ a.why }}</p>
+      {% if a.tags %}
+        <p>{% for t in a.tags %}<span class="tag">{{ t }}</span>{% endfor %}</p>
+      {% endif %}
+      <p><strong>Recommended actions:</strong></p>
+      <ul>{% for m in a.mitigations %}<li>{{ m }}</li>{% endfor %}</ul>
+      <hr class="divider" />
+    {% endfor %}
+
+    <p><a style="background:{{ accent }};color:#001;padding:10px 14px;border-radius:10px;font-weight:600" href="{{ web_edition_url }}">View on the web</a></p>
+    <p class="meta" style="text-align:center">{{ brand.footer_note.format(year=year) }}</p>
+  </div>
+</div>
+</body>
+</html>
