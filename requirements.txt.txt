@@ -1,0 +1,7 @@
+feedparser
+jinja2
+pyyaml
+transformers
+torch
+pillow
+scipy
