@@ -1,0 +1,12 @@
+{
+  "name": "Heira Security",
+  "primary_hex": "#4338CA",
+  "secondary_hex": "#6366F1",
+  "accent_hex": "#10B981",
+  "muted_hex": "#475569",
+  "bg_hex": "#0B1020",
+  "light_bg_hex": "#0F172A",
+  "text_hex": "#F8FAFC",
+  "logo_path": "assets/heira-logo.png",
+  "footer_note": "© {year} Heira Security — Practical awareness, real defenses."
+}
