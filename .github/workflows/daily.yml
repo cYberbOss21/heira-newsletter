@@ -47,7 +47,7 @@ jobs:
           fi
 
       - name: Generate newsletter
-        run: python $GEN_PATH/heira_newsletter.py
+        run: python heira_newsletter.py
 
       - name: Prepare site folder
         run: |
