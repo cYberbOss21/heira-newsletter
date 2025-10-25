@@ -1,0 +1,30 @@
+name: Heira Intel Feed
+
+on:
+  schedule:
+    - cron: "0 * * * *"    # every hour (UTC)
+  workflow_dispatch: {}
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install feedparser requests
+      - name: Run feed
+        env:
+          SLACK_WEBHOOK_URL:        ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_VULN:       ${{ secrets.SLACK_WEBHOOK_VULN }}
+          SLACK_WEBHOOK_RANSOMWARE: ${{ secrets.SLACK_WEBHOOK_RANSOMWARE }}
+          SLACK_WEBHOOK_CLOUD:      ${{ secrets.SLACK_WEBHOOK_CLOUD }}
+          SLACK_WEBHOOK_IDENTITY:   ${{ secrets.SLACK_WEBHOOK_IDENTITY }}
+          TWILIO_SID:  ${{ secrets.TWILIO_SID }}
+          TWILIO_AUTH: ${{ secrets.TWILIO_AUTH }}
+          TWILIO_FROM: ${{ secrets.TWILIO_FROM }}
+          TWILIO_TO:   ${{ secrets.TWILIO_TO }}
+        run: python intel_feed.py
